@@ -3,7 +3,7 @@
 namespace Brecht\LaravelQueueInterop;
 
 use Brecht\LaravelQueueInterop\Contracts\ConfigParser;
-use Brecht\LaravelQueueInterop\Contracts\ContextFactory;
+use Brecht\LaravelQueueInterop\Contracts\ContextManager as ContextManagerContract;
 use Illuminate\Contracts\Foundation\Application;
 use Interop\Queue\Consumer;
 use Interop\Queue\Context;
@@ -14,7 +14,7 @@ use Interop\Queue\Queue;
 use Interop\Queue\SubscriptionConsumer;
 use Interop\Queue\Topic;
 
-class ContextManager implements ContextFactory, Context
+class ContextManager implements ContextManagerContract
 {
     protected Application $app;
 
@@ -23,11 +23,10 @@ class ContextManager implements ContextFactory, Context
     /** @var Context[] */
     protected array $contexts = [];
 
-    public function __construct(Application $app)
+    public function __construct(Application $app, ConfigParser $config)
     {
         $this->app = $app;
-        /** @phpstan-ignore-next-line */
-        $this->config = $app->make(ConfigParser::class);
+        $this->config = $config;
     }
 
     public function context(?string $name = null): Context

@@ -23,6 +23,6 @@ class QueueInteropServiceProvider extends ServiceProvider
     {
         $this->app->bind(ConfigParserContract::class, ConfigParser::class);
 
-        $this->app->singleton(ContextManager::class, fn (Application $app) => new ContextManager($app));
+        $this->app->singleton(ContextManager::class);
     }
 }

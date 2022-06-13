@@ -34,7 +34,7 @@ class ContextManagerTest extends TestCase
             ],
         ]);
 
-        $manager = new ContextManager($this->app);
+        $manager = $this->app->make(ContextManager::class);
 
         $this->assertInstanceOf(NullContext::class, $manager->context());
     }
@@ -50,7 +50,7 @@ class ContextManagerTest extends TestCase
             ],
         ]);
 
-        $manager = new ContextManager($this->app);
+        $manager = $this->app->make(ContextManager::class);
 
         $this->assertInstanceOf(NullContext::class, $manager->context('other'));
     }

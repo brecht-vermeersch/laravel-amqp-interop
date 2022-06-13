@@ -32,7 +32,7 @@ class QueueInterop extends Facade
 {
     public static function fake(): ContextManagerFake
     {
-        static::swap($fake = new ContextManagerFake(static::getFacadeApplication()));
+        static::swap($fake = new ContextManagerFake());
 
         return $fake;
     }
