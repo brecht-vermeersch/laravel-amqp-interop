@@ -1,0 +1,58 @@
+{
+    "name": "brecht/laravel-queue-interop",
+    "description": "Laravel queue interop context manager, fake and facade",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brecht Vermeersch",
+            "email": "brechtvermeersch@outlook.be"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Brecht\\LaravelQueueInterop\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Brecht\\LaravelQueueInterop\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.4|8.*",
+        "illuminate/support": "^9.17",
+        "queue-interop/queue-interop": "^0.8.1",
+        "illuminate/contracts": "^9.17"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.5",
+        "enqueue/null": "^0.10.15",
+        "nunomaduro/larastan": "^2.0"
+    },
+    "suggest": {
+        "enqueue/amqp-ext": "Required to use the AMQP Ext transport.",
+        "enqueue/amqp-bunny": "Required to use the AMQP Bunny transport.",
+        "enqueue/amqp-lib": "Required to use the AMQP Lib transport.",
+        "enqueue/snsqs": "Required to use the Amazon SNS-SQS transport.",
+        "enqueue/sqs": "Required to use the Amazon SQS transport.",
+        "enqueue/gps": "Required to use the Google Pub Sub transport.",
+        "enqueue/pheanstalk": "Required to use the Beanstalk (Pheanstalk) transport.",
+        "enqueue/gearman": "Required to use the Gearman transport.",
+        "enqueue/rdkafka": "Required to use the Kafka transport.",
+        "enqueue/stomp": "Required to use the Stomp transport.",
+        "enqueue/redis": "Required to use the Redis transport.",
+        "enqueue/wamp": "Required to use the Web Application Messaging Protocol (WAMP) transport.",
+        "enqueue/dbal": "Required to use the Doctrine DBAL transport.",
+        "enqueue/fs": "Required to use the Filesystem transport.",
+        "enqueue/null": "Required to use the NULL transport."
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+              "QueueInteropServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
