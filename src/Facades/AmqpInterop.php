@@ -34,5 +34,4 @@ use Interop\Queue\SubscriptionConsumer;
  */
 class AmqpInterop extends QueueInterop
 {
-
 }

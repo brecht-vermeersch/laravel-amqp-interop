@@ -11,7 +11,7 @@ class QueueInteropServiceProvider extends ServiceProvider
         $configName = ConfigParser::$name;
         $configFile = __DIR__.'/../config/'.$configName.'.php';
 
-        $this->publishes([ $configFile => config_path($configName . '.php')]);
+        $this->publishes([$configFile => config_path($configName.'.php')]);
         $this->mergeConfigFrom($configFile, $configName);
     }
 
