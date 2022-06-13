@@ -8,7 +8,7 @@ use Interop\Queue\ConnectionFactory;
 
 class ConfigParser
 {
-    public static string $name = 'queueInterop'; // TODO
+    public static string $name = 'queueInterop';
 
     private Repository $config;
 
