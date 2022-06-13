@@ -2,7 +2,7 @@
 
 namespace Brecht\LaravelQueueInterop\Tests;
 
-use Brecht\LaravelQueueInterop\ContextManager;
+use Brecht\LaravelQueueInterop\ContextFactory;
 use Enqueue\Null\NullConnectionFactory;
 use Enqueue\Null\NullContext;
 use Enqueue\Null\NullQueue;
@@ -14,11 +14,11 @@ class ContextManagerTest extends TestCase
     /** @test */
     public function it_binds_to_container_as_singleton()
     {
-        $manager1 = $this->app->make(ContextManager::class);
-        $manager2 = $this->app->make(ContextManager::class);
+        $manager1 = $this->app->make(ContextFactory::class);
+        $manager2 = $this->app->make(ContextFactory::class);
 
-        $this->assertInstanceOf(ContextManager::class, $manager1);
-        $this->assertInstanceOf(ContextManager::class, $manager2);
+        $this->assertInstanceOf(ContextFactory::class, $manager1);
+        $this->assertInstanceOf(ContextFactory::class, $manager2);
         $this->assertEquals($manager1, $manager2);
     }
 
@@ -34,7 +34,7 @@ class ContextManagerTest extends TestCase
             ],
         ]);
 
-        $manager = $this->app->make(ContextManager::class);
+        $manager = $this->app->make(ContextFactory::class);
 
         $this->assertInstanceOf(NullContext::class, $manager->context());
     }
@@ -50,7 +50,7 @@ class ContextManagerTest extends TestCase
             ],
         ]);
 
-        $manager = $this->app->make(ContextManager::class);
+        $manager = $this->app->make(ContextFactory::class);
 
         $this->assertInstanceOf(NullContext::class, $manager->context('other'));
     }
@@ -82,8 +82,8 @@ class ContextManagerTest extends TestCase
             $mock->shouldReceive('close');
         });
 
-        /** @var ContextManager $managerMock */
-        $managerMock = $this->partialMock(ContextManager::class, function (MockInterface $mock) use ($contextMock) {
+        /** @var ContextFactory $managerMock */
+        $managerMock = $this->partialMock(ContextFactory::class, function (MockInterface $mock) use ($contextMock) {
             $mock->shouldReceive('context')->andReturn($contextMock);
         });
 

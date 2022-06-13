@@ -3,16 +3,9 @@
 namespace Brecht\LaravelQueueInterop\Tests;
 
 use Brecht\LaravelQueueInterop\ConfigParser;
-use Brecht\LaravelQueueInterop\Contracts\ConfigParser as ConfigParserContract;
 
 class ConfigParserTest extends TestCase
 {
-    /** @test */
-    public function it_binds_to_container()
-    {
-        $this->assertInstanceOf(ConfigParser::class, $this->app->make(ConfigParserContract::class), );
-    }
-
     /** @test */
     public function test_get_default_context_name()
     {

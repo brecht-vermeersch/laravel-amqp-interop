@@ -2,12 +2,14 @@
 
 namespace Brecht\LaravelQueueInterop;
 
-use Brecht\LaravelQueueInterop\Contracts\ConfigParser as ConfigParserContract;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
+use Interop\Queue\ConnectionFactory;
 
-class ConfigParser implements ConfigParserContract
+class ConfigParser
 {
+    public static string $name = 'queueInterop'; // TODO
+
     private Repository $config;
 
     public function __construct(Repository $config)
@@ -25,6 +27,10 @@ class ConfigParser implements ConfigParserContract
         return $this->config->get("queueInterop.contexts.$name");
     }
 
+    /**
+     * @param string $name
+     * @return class-string<ConnectionFactory>
+     */
     public function getContextConnectionFactoryClass(string $name): string
     {
         return $this->getContext($name)['connection_factory_class'];

@@ -2,18 +2,17 @@
 
 namespace Brecht\LaravelQueueInterop;
 
-use Brecht\LaravelQueueInterop\Contracts\ConfigParser as ConfigParserContract;
-use Brecht\LaravelQueueInterop\Contracts\ContextManager as ContextManagerContract;
+
 use Illuminate\Support\ServiceProvider;
 
 class QueueInteropServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $configFile = __DIR__.'/../config/queueInterop.php';
+        $configFile = __DIR__."/../config/queueInterop.php";
 
         $this->publishes([
-            $configFile => config_path('queueInterop.php'),
+            $configFile => config_path("queueInterop.php"),
         ]);
 
         $this->mergeConfigFrom($configFile, 'queueInterop');
@@ -21,7 +20,8 @@ class QueueInteropServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->bind(ConfigParserContract::class, ConfigParser::class);
-        $this->app->singleton(ContextManagerContract::class, ContextManager::class);
+        $this->app->bind(ConfigParser::class);
+        $this->app->singleton(ContextFactory::class);
+        $this->app->singleton(ContextFactoryFake::class);
     }
 }

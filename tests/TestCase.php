@@ -2,6 +2,7 @@
 
 namespace Brecht\LaravelQueueInterop\Tests;
 
+use Brecht\LaravelQueueInterop\Facades\AmqpInterop;
 use Brecht\LaravelQueueInterop\QueueInteropServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 

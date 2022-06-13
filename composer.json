@@ -22,7 +22,8 @@
         "php": "^7.4|8.*",
         "illuminate/support": "^9.17",
         "queue-interop/queue-interop": "^0.8.1",
-        "illuminate/contracts": "^9.17"
+        "illuminate/contracts": "^9.17",
+        "queue-interop/amqp-interop": "^0.8.2"
     },
     "require-dev": {
         "orchestra/testbench": "^7.5",

@@ -2,8 +2,8 @@
 
 namespace Brecht\LaravelQueueInterop\Facades;
 
-use Brecht\LaravelQueueInterop\ContextManager;
-use Brecht\LaravelQueueInterop\ContextManagerFake;
+use Brecht\LaravelQueueInterop\ContextFactory;
+use Brecht\LaravelQueueInterop\ContextFactoryFake;
 use Illuminate\Support\Facades\Facade;
 use Interop\Queue\Consumer;
 use Interop\Queue\Context;
@@ -25,20 +25,20 @@ use Interop\Queue\Topic;
  * @method static SubscriptionConsumer createSubscriptionConsumer()
  * @method static void purgeQueue(Queue $queue)
  * @method static void close()
- *
- * @see ContextManager, ContextManagerFake
  */
 class QueueInterop extends Facade
 {
-    public static function fake(): ContextManagerFake
+    public static function fake(): ContextFactoryFake
     {
-        static::swap($fake = new ContextManagerFake());
+        $fake = static::getFacadeApplication()->make(ContextFactoryFake::class);
+
+        static::swap($fake);
 
         return $fake;
     }
 
     public static function getFacadeAccessor(): string
     {
-        return ContextManager::class;
+        return ContextFactory::class;
     }
 }

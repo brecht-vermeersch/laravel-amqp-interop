@@ -2,7 +2,7 @@
 
 namespace Brecht\LaravelQueueInterop\Tests;
 
-use Brecht\LaravelQueueInterop\ContextManagerFake;
+use Brecht\LaravelQueueInterop\ContextFactoryFake;
 use Enqueue\Null\NullContext;
 
 class QueueInteropFakeTest extends TestCase
@@ -10,7 +10,7 @@ class QueueInteropFakeTest extends TestCase
     /** @test */
     public function context_always_returns_null_context()
     {
-        $fake = new ContextManagerFake($this->app);
+        $fake = $this->app->make(ContextFactoryFake::class);
 
         $this->assertInstanceOf(NullContext::class, $fake->context());
         $this->assertInstanceOf(NullContext::class, $fake->context('driver1'));
