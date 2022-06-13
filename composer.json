@@ -27,7 +27,8 @@
     "require-dev": {
         "orchestra/testbench": "^7.5",
         "enqueue/null": "^0.10.15",
-        "nunomaduro/larastan": "^2.0"
+        "nunomaduro/larastan": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.8"
     },
     "suggest": {
         "enqueue/amqp-ext": "Required to use the AMQP Ext transport.",

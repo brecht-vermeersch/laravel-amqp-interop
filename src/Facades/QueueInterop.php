@@ -2,6 +2,8 @@
 
 namespace Brecht\LaravelQueueInterop\Facades;
 
+use Brecht\LaravelQueueInterop\ContextManager;
+use Brecht\LaravelQueueInterop\ContextManagerFake;
 use Illuminate\Support\Facades\Facade;
 use Interop\Queue\Consumer;
 use Interop\Queue\Context;
@@ -11,8 +13,6 @@ use Interop\Queue\Producer;
 use Interop\Queue\Queue;
 use Interop\Queue\SubscriptionConsumer;
 use Interop\Queue\Topic;
-use Brecht\LaravelQueueInterop\ContextManager;
-use Brecht\LaravelQueueInterop\ContextManagerFake;
 
 /**
  * @method static Context context(?string $name = null)

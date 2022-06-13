@@ -18,5 +18,5 @@ return [
         'null' => [
             'connection_factory_class' => \Enqueue\Null\NullConnectionFactory::class,
         ],
-    ]
+    ],
 ];

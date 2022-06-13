@@ -2,8 +2,8 @@
 
 namespace Brecht\LaravelQueueInterop\Tests;
 
-use Enqueue\Null\NullContext;
 use Brecht\LaravelQueueInterop\ContextManagerFake;
+use Enqueue\Null\NullContext;
 
 class QueueInteropFakeTest extends TestCase
 {

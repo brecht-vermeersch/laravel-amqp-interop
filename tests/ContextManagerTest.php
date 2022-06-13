@@ -2,11 +2,11 @@
 
 namespace Brecht\LaravelQueueInterop\Tests;
 
-use Enqueue\Null\NullContext;
+use Brecht\LaravelQueueInterop\ContextManager;
 use Enqueue\Null\NullConnectionFactory;
+use Enqueue\Null\NullContext;
 use Enqueue\Null\NullQueue;
 use Interop\Queue\Context;
-use Brecht\LaravelQueueInterop\ContextManager;
 use Mockery\MockInterface;
 
 class ContextManagerTest extends TestCase
@@ -29,7 +29,7 @@ class ContextManagerTest extends TestCase
             'queueInterop.default' => 'null',
             'queueInterop.contexts.null' => [
                 'connection_factory_class' => NullConnectionFactory::class,
-            ]
+            ],
         ];
 
         $manager = new ContextManager($this->app);
@@ -43,7 +43,7 @@ class ContextManagerTest extends TestCase
         $this->app['config'] = [
             'queueInterop.contexts.other' => [
                 'connection_factory_class' => NullConnectionFactory::class,
-            ]
+            ],
         ];
 
         $manager = new ContextManager($this->app);
@@ -58,7 +58,7 @@ class ContextManagerTest extends TestCase
             'queueInterop.default' => 'null',
             'queueInterop.contexts.null' => [
                 'connection_factory_class' => NullConnectionFactory::class,
-            ]
+            ],
         ];
 
         $nullQueue = new NullQueue('nullQueue');
@@ -77,7 +77,7 @@ class ContextManagerTest extends TestCase
         });
 
         /** @var ContextManager $managerMock */
-        $managerMock = $this->partialMock(ContextManager::class, function(MockInterface $mock) use ($contextMock) {
+        $managerMock = $this->partialMock(ContextManager::class, function (MockInterface $mock) use ($contextMock) {
             $mock->shouldReceive('context')->andReturn($contextMock);
         });
 
@@ -101,7 +101,7 @@ class ContextManagerTest extends TestCase
             'queueInterop.default' => 'null',
             'queueInterop.contexts.null' => [
                 'connection_factory_class' => null,
-            ]
+            ],
         ];
 
         $manager = new ContextManager($this->app);
@@ -118,7 +118,7 @@ class ContextManagerTest extends TestCase
             'queueInterop.default' => 'null',
             'queueInterop.contexts.null' => [
                 'connection_factory_class' => 'Not\A\Class',
-            ]
+            ],
         ];
 
         $manager = new ContextManager($this->app);
@@ -135,7 +135,7 @@ class ContextManagerTest extends TestCase
             'queueInterop.default' => 'null',
             'queueInterop.contexts.null' => [
                 'connection_factory_class' => self::class,
-            ]
+            ],
         ];
 
         $manager = new ContextManager($this->app);

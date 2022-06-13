@@ -2,17 +2,17 @@
 
 namespace Brecht\LaravelQueueInterop;
 
+use Brecht\LaravelQueueInterop\Contracts\ContextFactory;
+use Illuminate\Contracts\Foundation\Application;
+use Interop\Queue\ConnectionFactory;
 use Interop\Queue\Consumer;
 use Interop\Queue\Context;
-use Interop\Queue\ConnectionFactory;
-use Illuminate\Contracts\Foundation\Application;
 use Interop\Queue\Destination;
 use Interop\Queue\Message;
 use Interop\Queue\Producer;
 use Interop\Queue\Queue;
 use Interop\Queue\SubscriptionConsumer;
 use Interop\Queue\Topic;
-use Brecht\LaravelQueueInterop\Contracts\ContextFactory;
 
 class ContextManager implements ContextFactory, Context
 {
@@ -30,7 +30,7 @@ class ContextManager implements ContextFactory, Context
     {
         $name = $name ?: $this->getDefaultContextName();
 
-        if (!isset($this->contexts[$name])) {
+        if (! isset($this->contexts[$name])) {
             $this->contexts[$name] = $this->resolve($name);
         }
 
@@ -59,12 +59,12 @@ class ContextManager implements ContextFactory, Context
         }
 
         $factoryClass = $config['connection_factory_class'];
-        if (!class_exists($factoryClass)) {
+        if (! class_exists($factoryClass)) {
             throw new \LogicException(sprintf('The "connection_factory_class" option "%s" is not a class', $factoryClass));
         }
 
         $rc = new \ReflectionClass($factoryClass);
-        if (!$rc->implementsInterface(ConnectionFactory::class)) {
+        if (! $rc->implementsInterface(ConnectionFactory::class)) {
             throw new \LogicException(sprintf('The "connection_factory_class" option must contain a class that implements "%s" but it is not', ConnectionFactory::class));
         }
 
