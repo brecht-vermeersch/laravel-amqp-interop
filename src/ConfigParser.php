@@ -19,12 +19,12 @@ class ConfigParser
 
     public function getDefaultContextName(): string
     {
-        return $this->config->get('queueInterop.default');
+        return $this->config->get(static::$name.'.default');
     }
 
     public function getContext(string $name): array
     {
-        return $this->config->get("queueInterop.contexts.$name");
+        return $this->config->get(static::$name.'.contexts.'.$name);
     }
 
     /**
