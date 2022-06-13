@@ -2,9 +2,9 @@
 
 namespace Brecht\LaravelQueueInterop;
 
+use Brecht\LaravelQueueInterop\Contracts\ConfigParser;
 use Brecht\LaravelQueueInterop\Contracts\ContextFactory;
 use Illuminate\Contracts\Foundation\Application;
-use Interop\Queue\ConnectionFactory;
 use Interop\Queue\Consumer;
 use Interop\Queue\Context;
 use Interop\Queue\Destination;
@@ -18,17 +18,21 @@ class ContextManager implements ContextFactory, Context
 {
     protected Application $app;
 
+    protected ConfigParser $config;
+
     /** @var Context[] */
     protected array $contexts = [];
 
     public function __construct(Application $app)
     {
         $this->app = $app;
+        /** @phpstan-ignore-next-line */
+        $this->config = $app->make(ConfigParser::class);
     }
 
     public function context(?string $name = null): Context
     {
-        $name = $name ?: $this->getDefaultContextName();
+        $name = $name ?: $this->config->getDefaultContextName();
 
         if (! isset($this->contexts[$name])) {
             $this->contexts[$name] = $this->resolve($name);
@@ -39,43 +43,19 @@ class ContextManager implements ContextFactory, Context
 
     protected function resolve(string $name): Context
     {
-        $config = $this->getConfig($name);
+        $factoryClass = $this->config->getContextConnectionFactoryClass($name);
+        $factoryConfig = $this->config->getContextConnectionFactoryConfig($name);
+        $factory = new $factoryClass($factoryConfig);
 
-        $connectionFactoryClass = $this->getConfigConnectionFactoryClass($config);
-        $connectionFactory = new $connectionFactoryClass($config['dns'] ?? $config);
-
-        return $connectionFactory->createContext();
+        return $factory->createContext();
     }
 
-    protected function getConfig(string $name): array
-    {
-        return $this->app['config']["queueInterop.contexts.$name"];
-    }
-
-    protected function getConfigConnectionFactoryClass(array $config): string
-    {
-        if (empty($config['connection_factory_class'])) {
-            throw new \LogicException('The "connection_factory_class" option is required');
-        }
-
-        $factoryClass = $config['connection_factory_class'];
-        if (! class_exists($factoryClass)) {
-            throw new \LogicException(sprintf('The "connection_factory_class" option "%s" is not a class', $factoryClass));
-        }
-
-        $rc = new \ReflectionClass($factoryClass);
-        if (! $rc->implementsInterface(ConnectionFactory::class)) {
-            throw new \LogicException(sprintf('The "connection_factory_class" option must contain a class that implements "%s" but it is not', ConnectionFactory::class));
-        }
-
-        return $factoryClass;
-    }
-
-    protected function getDefaultContextName(): string
-    {
-        return $this->app['config']['queueInterop.default'];
-    }
-
+    /**
+     * @param string $body
+     * @param array<string, mixed> $properties
+     * @param array<string, mixed> $headers
+     * @return Message
+     */
     public function createMessage(string $body = '', array $properties = [], array $headers = []): Message
     {
         return $this->context()->createMessage($body, $properties, $headers);

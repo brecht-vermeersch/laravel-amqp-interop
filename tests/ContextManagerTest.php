@@ -25,12 +25,14 @@ class ContextManagerTest extends TestCase
     /** @test */
     public function default_context_can_be_resolved()
     {
-        $this->app['config'] = [
-            'queueInterop.default' => 'null',
-            'queueInterop.contexts.null' => [
-                'connection_factory_class' => NullConnectionFactory::class,
+        $this->app['config']->set('queueInterop', [
+            'default' => 'null',
+            'contexts' => [
+                'null' => [
+                    'connection_factory_class' => NullConnectionFactory::class,
+                ],
             ],
-        ];
+        ]);
 
         $manager = new ContextManager($this->app);
 
@@ -40,11 +42,13 @@ class ContextManagerTest extends TestCase
     /** @test */
     public function other_context_can_be_resolved()
     {
-        $this->app['config'] = [
-            'queueInterop.contexts.other' => [
-                'connection_factory_class' => NullConnectionFactory::class,
+        $this->app['config']->set('queueInterop', [
+            'contexts' => [
+                'other' => [
+                    'connection_factory_class' => NullConnectionFactory::class,
+                ],
             ],
-        ];
+        ]);
 
         $manager = new ContextManager($this->app);
 
@@ -54,12 +58,14 @@ class ContextManagerTest extends TestCase
     /** @test */
     public function it_forwards_method_calls_to_default_context()
     {
-        $this->app['config'] = [
-            'queueInterop.default' => 'null',
-            'queueInterop.contexts.null' => [
-                'connection_factory_class' => NullConnectionFactory::class,
+        $this->app['config']->set('queueInterop', [
+            'default' => 'null',
+            'contexts' => [
+                'null' => [
+                    'connection_factory_class' => NullConnectionFactory::class,
+                ],
             ],
-        ];
+        ]);
 
         $nullQueue = new NullQueue('nullQueue');
 
@@ -90,56 +96,5 @@ class ContextManagerTest extends TestCase
         $managerMock->createSubscriptionConsumer();
         $managerMock->purgeQueue($nullQueue);
         $managerMock->close();
-    }
-
-    /** @test */
-    public function context_throws_when_connection_factory_class_is_not_set_in_config()
-    {
-        $this->expectException(\LogicException::class);
-
-        $this->app['config'] = [
-            'queueInterop.default' => 'null',
-            'queueInterop.contexts.null' => [
-                'connection_factory_class' => null,
-            ],
-        ];
-
-        $manager = new ContextManager($this->app);
-
-        $manager->context();
-    }
-
-    /** @test */
-    public function context_throws_when_connection_factory_class_set_in_config_does_not_exist()
-    {
-        $this->expectException(\LogicException::class);
-
-        $this->app['config'] = [
-            'queueInterop.default' => 'null',
-            'queueInterop.contexts.null' => [
-                'connection_factory_class' => 'Not\A\Class',
-            ],
-        ];
-
-        $manager = new ContextManager($this->app);
-
-        $manager->context();
-    }
-
-    /** @test */
-    public function context_throws_when_connection_factory_class_set_in_config_does_not_implement_connection_factory()
-    {
-        $this->expectException(\LogicException::class);
-
-        $this->app['config'] = [
-            'queueInterop.default' => 'null',
-            'queueInterop.contexts.null' => [
-                'connection_factory_class' => self::class,
-            ],
-        ];
-
-        $manager = new ContextManager($this->app);
-
-        $manager->context();
     }
 }
