@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brecht\LaravelAmqpInterop\Testing\Fakes;
 
 use Brecht\LaravelAmqpInterop\Contracts\AmqpContextFactory;

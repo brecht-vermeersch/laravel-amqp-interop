@@ -38,6 +38,10 @@ class AmqpConfig
         return $this->getContext($name)['connection_factory_class'];
     }
 
+    /**
+     * @param string $name
+     * @return array|string
+     */
     public function getContextConnectionFactoryConfig(string $name)
     {
         $config = $this->getContext($name);
