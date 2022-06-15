@@ -1,12 +1,14 @@
 <?php
 
-namespace Brecht\LaravelQueueInterop;
+declare(strict_types=1);
+
+namespace Brecht\LaravelAmqpInterop;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Arr;
-use Interop\Queue\ConnectionFactory;
+use Interop\Amqp\AmqpConnectionFactory;
 
-class ConfigParser
+class AmqpConfig
 {
     public static string $name = 'queueInterop';
 
@@ -29,7 +31,7 @@ class ConfigParser
 
     /**
      * @param string $name
-     * @return class-string<ConnectionFactory>
+     * @return class-string<AmqpConnectionFactory>
      */
     public function getContextConnectionFactoryClass(string $name): string
     {

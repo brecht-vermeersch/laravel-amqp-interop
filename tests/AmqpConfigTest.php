@@ -1,10 +1,10 @@
 <?php
 
-namespace Brecht\LaravelQueueInterop\Tests;
+namespace Brecht\LaravelAmqpInterop\Tests;
 
-use Brecht\LaravelQueueInterop\ConfigParser;
+use Brecht\LaravelAmqpInterop\AmqpConfig;
 
-class ConfigParserTest extends TestCase
+class AmqpConfigTest extends TestCase
 {
     /** @test */
     public function test_get_default_context_name()
@@ -13,8 +13,8 @@ class ConfigParserTest extends TestCase
             'default' => 'test',
         ]);
 
-        /** @var ConfigParser $config */
-        $config = $this->app->make(ConfigParser::class);
+        /** @var AmqpConfig $config */
+        $config = $this->app->make(AmqpConfig::class);
 
         $this->assertEquals('test', $config->getDefaultContextName());
     }
@@ -30,8 +30,8 @@ class ConfigParserTest extends TestCase
             ],
         ]);
 
-        /** @var ConfigParser $config */
-        $config = $this->app->make(ConfigParser::class);
+        /** @var AmqpConfig $config */
+        $config = $this->app->make(AmqpConfig::class);
 
         $this->assertEquals(
             [
@@ -53,8 +53,8 @@ class ConfigParserTest extends TestCase
             ],
         ]);
 
-        /** @var ConfigParser $config */
-        $config = $this->app->make(ConfigParser::class);
+        /** @var AmqpConfig $config */
+        $config = $this->app->make(AmqpConfig::class);
 
         $this->assertEquals('factory', $config->getContextConnectionFactoryClass('test')
         );
@@ -74,8 +74,8 @@ class ConfigParserTest extends TestCase
             ],
         ]);
 
-        /** @var ConfigParser $config */
-        $config = $this->app->make(ConfigParser::class);
+        /** @var AmqpConfig $config */
+        $config = $this->app->make(AmqpConfig::class);
 
         $this->assertEquals(
             [
@@ -98,8 +98,8 @@ class ConfigParserTest extends TestCase
             ],
         ]);
 
-        /** @var ConfigParser $config */
-        $config = $this->app->make(ConfigParser::class);
+        /** @var AmqpConfig $config */
+        $config = $this->app->make(AmqpConfig::class);
 
         $this->assertEquals('amqp:', $config->getContextConnectionFactoryConfig('test'));
     }

@@ -1,14 +1,17 @@
 <?php
 
-namespace Brecht\LaravelQueueInterop;
+declare(strict_types=1);
 
+namespace Brecht\LaravelAmqpInterop;
+
+use Brecht\LaravelAmqpInterop\Contracts\AmqpContextFactory as FactoryContract;
 use Illuminate\Support\ServiceProvider;
 
-class QueueInteropServiceProvider extends ServiceProvider
+class AmqpInteropServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $configName = ConfigParser::$name;
+        $configName = AmqpConfig::$name;
         $configFile = __DIR__.'/../config/'.$configName.'.php';
 
         $this->publishes([$configFile => config_path($configName.'.php')]);
@@ -17,8 +20,6 @@ class QueueInteropServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->bind(ConfigParser::class);
-        $this->app->singleton(ContextFactory::class);
-        $this->app->singleton(ContextFactoryFake::class);
+        $this->app->singleton('amqp', AmqpManager::class);
     }
 }

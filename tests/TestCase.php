@@ -1,9 +1,9 @@
 <?php
 
-namespace Brecht\LaravelQueueInterop\Tests;
+namespace Brecht\LaravelAmqpInterop\Tests;
 
-use Brecht\LaravelQueueInterop\Facades\AmqpInterop;
-use Brecht\LaravelQueueInterop\QueueInteropServiceProvider;
+use Brecht\LaravelAmqpInterop\AmqpInteropServiceProvider;
+use Brecht\LaravelAmqpInterop\Facades\Amqp;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 class TestCase extends OrchestraTestCase
@@ -11,7 +11,7 @@ class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app): array
     {
         return [
-            QueueInteropServiceProvider::class,
+            AmqpInteropServiceProvider::class,
         ];
     }
 }

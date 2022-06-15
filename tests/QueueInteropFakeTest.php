@@ -1,8 +1,8 @@
 <?php
 
-namespace Brecht\LaravelQueueInterop\Tests;
+namespace Brecht\LaravelAmqpInterop\Tests;
 
-use Brecht\LaravelQueueInterop\ContextFactoryFake;
+use Brecht\LaravelAmqpInterop\Testing\ContextFactoryFake;
 use Enqueue\Null\NullContext;
 
 class QueueInteropFakeTest extends TestCase

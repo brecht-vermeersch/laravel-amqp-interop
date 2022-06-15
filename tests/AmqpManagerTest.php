@@ -1,24 +1,21 @@
 <?php
 
-namespace Brecht\LaravelQueueInterop\Tests;
+namespace Brecht\LaravelAmqpInterop\Tests;
 
-use Brecht\LaravelQueueInterop\ContextFactory;
-use Enqueue\Null\NullConnectionFactory;
-use Enqueue\Null\NullContext;
-use Enqueue\Null\NullQueue;
+use Brecht\LaravelAmqpInterop\AmqpManager;
 use Interop\Queue\Context;
 use Mockery\MockInterface;
 
-class ContextManagerTest extends TestCase
+class AmqpManagerTest extends TestCase
 {
     /** @test */
     public function it_binds_to_container_as_singleton()
     {
-        $manager1 = $this->app->make(ContextFactory::class);
-        $manager2 = $this->app->make(ContextFactory::class);
+        $manager1 = $this->app->make('amqp');
+        $manager2 = $this->app->make('amqp');
 
-        $this->assertInstanceOf(ContextFactory::class, $manager1);
-        $this->assertInstanceOf(ContextFactory::class, $manager2);
+        $this->assertInstanceOf(AmqpManager::class, $manager1);
+        $this->assertInstanceOf(AmqpManager::class, $manager2);
         $this->assertEquals($manager1, $manager2);
     }
 
@@ -34,7 +31,7 @@ class ContextManagerTest extends TestCase
             ],
         ]);
 
-        $manager = $this->app->make(ContextFactory::class);
+        $manager = $this->app->make(AmqpManager::class);
 
         $this->assertInstanceOf(NullContext::class, $manager->context());
     }
@@ -50,7 +47,7 @@ class ContextManagerTest extends TestCase
             ],
         ]);
 
-        $manager = $this->app->make(ContextFactory::class);
+        $manager = $this->app->make(AmqpManager::class);
 
         $this->assertInstanceOf(NullContext::class, $manager->context('other'));
     }
@@ -82,8 +79,8 @@ class ContextManagerTest extends TestCase
             $mock->shouldReceive('close');
         });
 
-        /** @var ContextFactory $managerMock */
-        $managerMock = $this->partialMock(ContextFactory::class, function (MockInterface $mock) use ($contextMock) {
+        /** @var AmqpManager $managerMock */
+        $managerMock = $this->partialMock(AmqpManager::class, function (MockInterface $mock) use ($contextMock) {
             $mock->shouldReceive('context')->andReturn($contextMock);
         });
 

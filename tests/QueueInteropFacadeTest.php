@@ -1,26 +1,27 @@
 <?php
 
-namespace Brecht\LaravelQueueInterop\Tests;
+namespace Brecht\LaravelAmqpInterop\Tests;
 
-use Brecht\LaravelQueueInterop\ContextFactory;
-use Brecht\LaravelQueueInterop\ContextFactoryFake;
-use Brecht\LaravelQueueInterop\Facades\QueueInterop;
+use Brecht\LaravelAmqpInterop\AmqpManager;
+use Brecht\LaravelAmqpInterop\Facades\QueueInterop;
+use Brecht\LaravelAmqpInterop\Testing\ContextFactoryFake;
+use Enqueue\Null\NullContext;
 
 class QueueInteropFacadeTest extends TestCase
 {
     /** @test */
     public function get_facade_root_returns_context_manager()
     {
-        $this->assertEquals($this->app->make(ContextFactory::class), QueueInterop::getFacadeRoot());
+        $this->assertEquals($this->app->make(AmqpManager::class), QueueInterop::getFacadeRoot());
     }
 
     /** @test */
-    public function fake_swaps_facade_root_to_fake()
+    public function fake_swaps_facade_root_to_null_context()
     {
-        $this->assertNotInstanceOf(ContextFactoryFake::class, QueueInterop::getFacadeRoot());
+        $this->assertNotInstanceOf(NullContext::class, QueueInterop::getFacadeRoot());
 
         QueueInterop::fake();
 
-        $this->assertInstanceOf(ContextFactoryFake::class, QueueInterop::getFacadeRoot());
+        $this->assertInstanceOf(NullContext::class, QueueInterop::getFacadeRoot());
     }
 }
