@@ -2,9 +2,9 @@
 
 namespace Brecht\LaravelAmqpInterop\Facades;
 
-use Brecht\LaravelAmqpInterop\Testing\Fakes\FakeAmqpContext;
-use Brecht\LaravelAmqpInterop\Testing\Fakes\FakeAmqpManager;
-use Brecht\LaravelAmqpInterop\Testing\Fakes\FakeAmqpProducer;
+use Brecht\LaravelAmqpInterop\Testing\Fakes\AmqpContextFake;
+use Brecht\LaravelAmqpInterop\Testing\Fakes\AmqpManagerFake;
+use Brecht\LaravelAmqpInterop\Testing\Fakes\AmqpProducerFake;
 use Illuminate\Support\Facades\Facade;
 use Interop\Amqp\AmqpBind;
 use Interop\Amqp\AmqpConsumer;
@@ -18,10 +18,10 @@ use Interop\Queue\Queue;
 use Interop\Queue\SubscriptionConsumer;
 
 /**
- * @method static AmqpContext|FakeAmqpContext context(?string $name = null)
+ * @method static AmqpContext|AmqpContextFake context(?string $name = null)
  * @method static AmqpQueue createQueue($queueName)
  * @method static AmqpQueue createTemporaryQueue()
- * @method static AmqpProducer|FakeAmqpProducer createProducer()
+ * @method static AmqpProducer|AmqpProducerFake createProducer()
  * @method static AmqpConsumer createConsumer(AmqpDestination $destination)
  * @method static AmqpTopic createTopic($topicName)
  * @method static AmqpMessage createMessage($body = '', array $properties = [], array $headers = [])
@@ -38,9 +38,9 @@ use Interop\Queue\SubscriptionConsumer;
  */
 class Amqp extends Facade
 {
-    public static function fake(): FakeAmqpManager
+    public static function fake(): AmqpManagerFake
     {
-        static::swap($fake = new FakeAmqpManager());
+        static::swap($fake = new AmqpManagerFake());
 
         return $fake;
     }

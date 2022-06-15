@@ -1,12 +1,13 @@
 <?php
 
-namespace Brecht\LaravelAmqpInterop\Tests;
+namespace Brecht\LaravelAmqpInterop\Tests\Facades;
 
 use Brecht\LaravelAmqpInterop\AmqpManager;
 use Brecht\LaravelAmqpInterop\Facades\Amqp;
-use Brecht\LaravelAmqpInterop\Testing\Fakes\FakeAmqpManager;
+use Brecht\LaravelAmqpInterop\Testing\Fakes\AmqpManagerFake;
+use Brecht\LaravelAmqpInterop\Tests\TestCase;
 
-class AmqpInteropFacadeTest extends TestCase
+class AmqpTest extends TestCase
 {
     /** @test */
     public function get_facade_root_returns_context_manager()
@@ -18,10 +19,10 @@ class AmqpInteropFacadeTest extends TestCase
     /** @test */
     public function fake_swaps_facade_root_to_null_context()
     {
-        $this->assertNotInstanceOf(FakeAmqpManager::class, Amqp::getFacadeRoot());
+        $this->assertNotInstanceOf(AmqpManagerFake::class, Amqp::getFacadeRoot());
 
         Amqp::fake();
 
-        $this->assertInstanceOf(FakeAmqpManager::class, Amqp::getFacadeRoot());
+        $this->assertInstanceOf(AmqpManagerFake::class, Amqp::getFacadeRoot());
     }
 }

@@ -3,8 +3,8 @@
 namespace Brecht\LaravelAmqpInterop\Tests;
 
 use Brecht\LaravelAmqpInterop\AmqpManager;
-use Brecht\LaravelAmqpInterop\Testing\Fakes\FakeAmqpConnectionFactory;
-use Brecht\LaravelAmqpInterop\Testing\Fakes\FakeAmqpContext;
+use Brecht\LaravelAmqpInterop\Testing\Fakes\AmqpConnectionFactoryFake;
+use Brecht\LaravelAmqpInterop\Testing\Fakes\AmqpContextFake;
 use Interop\Amqp\AmqpContext;
 use Interop\Amqp\Impl\AmqpQueue;
 use Interop\Queue\Context;
@@ -30,14 +30,14 @@ class AmqpManagerTest extends TestCase
             'default' => 'null',
             'contexts' => [
                 'null' => [
-                    'connection_factory_class' => FakeAmqpConnectionFactory::class,
+                    'connection_factory_class' => AmqpConnectionFactoryFake::class,
                 ],
             ],
         ]);
 
         $manager = $this->app->make(AmqpManager::class);
 
-        $this->assertInstanceOf(FakeAmqpContext::class, $manager->context());
+        $this->assertInstanceOf(AmqpContextFake::class, $manager->context());
     }
 
     /** @test */
@@ -46,14 +46,14 @@ class AmqpManagerTest extends TestCase
         $this->app['config']->set('queueInterop', [
             'contexts' => [
                 'other' => [
-                    'connection_factory_class' => FakeAmqpConnectionFactory::class,
+                    'connection_factory_class' => AmqpConnectionFactoryFake::class,
                 ],
             ],
         ]);
 
         $manager = $this->app->make(AmqpManager::class);
 
-        $this->assertInstanceOf(FakeAmqpContext::class, $manager->context('other'));
+        $this->assertInstanceOf(AmqpContextFake::class, $manager->context('other'));
     }
 
     /** @test */
@@ -63,7 +63,7 @@ class AmqpManagerTest extends TestCase
             'default' => 'null',
             'contexts' => [
                 'null' => [
-                    'connection_factory_class' => FakeAmqpConnectionFactory::class,
+                    'connection_factory_class' => AmqpConnectionFactoryFake::class,
                 ],
             ],
         ]);

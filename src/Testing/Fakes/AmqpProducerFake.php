@@ -12,7 +12,7 @@ use Interop\Queue\Queue;
 use Interop\Queue\Topic;
 use PHPUnit\Framework\Assert as PHPUnit;
 
-class FakeAmqpProducer implements AmqpProducer
+class AmqpProducerFake implements AmqpProducer
 {
     private ?int $deliveryDelay;
 

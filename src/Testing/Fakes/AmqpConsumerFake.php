@@ -9,7 +9,7 @@ use Interop\Amqp\AmqpMessage;
 use Interop\Amqp\AmqpQueue;
 use Interop\Queue\Message;
 
-class FakeAmqpConsumer implements AmqpConsumer
+class AmqpConsumerFake implements AmqpConsumer
 {
     private ?string $consumerTag;
 

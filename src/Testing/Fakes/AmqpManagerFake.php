@@ -10,11 +10,11 @@ use Interop\Amqp\AmqpContext;
 /**
  * @mixin AmqpContext
  */
-class FakeAmqpManager implements AmqpContextFactory
+class AmqpManagerFake implements AmqpContextFactory
 {
-    public function context(?string $name = null): AmqpContext
+    public function context(?string $name = null): AmqpContextFake
     {
-        return new FakeAmqpContext();
+        return new AmqpContextFake();
     }
 
     public function __call($name, $arguments)

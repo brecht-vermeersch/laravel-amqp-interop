@@ -7,7 +7,7 @@ namespace Brecht\LaravelAmqpInterop\Testing\Fakes;
 use Interop\Amqp\AmqpSubscriptionConsumer;
 use Interop\Queue\Consumer;
 
-class FakeAmqpSubscriptionConsumer implements AmqpSubscriptionConsumer
+class AmqpSubscriptionConsumerFake implements AmqpSubscriptionConsumer
 {
     public function consume(int $timeout = 0): void
     {

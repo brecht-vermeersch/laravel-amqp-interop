@@ -13,7 +13,7 @@ use Interop\Amqp\AmqpTopic;
 use Interop\Queue\Destination;
 use Interop\Queue\Queue;
 
-class FakeAmqpContext implements AmqpContext
+class AmqpContextFake implements AmqpContext
 {
     public function declareTopic(AmqpTopic $topic): void
     {
@@ -44,9 +44,9 @@ class FakeAmqpContext implements AmqpContext
     {
     }
 
-    public function createSubscriptionConsumer(): FakeAmqpSubscriptionConsumer
+    public function createSubscriptionConsumer(): AmqpSubscriptionConsumerFake
     {
-        return new FakeAmqpSubscriptionConsumer();
+        return new AmqpSubscriptionConsumerFake();
     }
 
     public function purgeQueue(Queue $queue): void
@@ -67,9 +67,9 @@ class FakeAmqpContext implements AmqpContext
         return $this->createQueue(uniqid('', true));
     }
 
-    public function createProducer(): FakeAmqpProducer
+    public function createProducer(): AmqpProducerFake
     {
-        return new FakeAmqpProducer();
+        return new AmqpProducerFake();
     }
 
     public function createTopic(string $topicName): AmqpTopic
@@ -84,6 +84,6 @@ class FakeAmqpContext implements AmqpContext
 
     public function createConsumer(Destination $destination): AmqpConsumer
     {
-        return new FakeAmqpConsumer($destination);
+        return new AmqpConsumerFake($destination);
     }
 }
