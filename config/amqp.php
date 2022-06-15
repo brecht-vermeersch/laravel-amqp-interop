@@ -3,7 +3,7 @@
 return [
     'connection_factory_class' => \Brecht\LaravelAmqpInterop\Testing\Fakes\AmqpConnectionFactoryFake::class,
 
-    'default' => env('ENQUEUE_DRIVER', 'null'),
+    'default' => env('ENQUEUE_DRIVER', 'example'),
 
     'contexts' => [
         'example' => [
