@@ -10,7 +10,7 @@ use Interop\Amqp\AmqpConnectionFactory;
 
 class AmqpConfig
 {
-    public static string $name = 'queueInterop';
+    public static string $name = 'amqp';
 
     private Repository $config;
 
