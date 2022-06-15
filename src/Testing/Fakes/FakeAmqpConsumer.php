@@ -7,6 +7,7 @@ namespace Brecht\LaravelAmqpInterop\Testing\Fakes;
 use Interop\Amqp\AmqpConsumer;
 use Interop\Amqp\AmqpMessage;
 use Interop\Amqp\AmqpQueue;
+use Interop\Queue\Message;
 
 class FakeAmqpConsumer implements AmqpConsumer
 {
@@ -67,7 +68,7 @@ class FakeAmqpConsumer implements AmqpConsumer
         return null;
     }
 
-    public function acknowledge($message): void
+    public function acknowledge(Message $message): void
     {
     }
 

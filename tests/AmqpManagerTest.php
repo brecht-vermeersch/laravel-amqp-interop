@@ -3,6 +3,10 @@
 namespace Brecht\LaravelAmqpInterop\Tests;
 
 use Brecht\LaravelAmqpInterop\AmqpManager;
+use Brecht\LaravelAmqpInterop\Testing\Fakes\FakeAmqpConnectionFactory;
+use Brecht\LaravelAmqpInterop\Testing\Fakes\FakeAmqpContext;
+use Interop\Amqp\AmqpContext;
+use Interop\Amqp\Impl\AmqpQueue;
 use Interop\Queue\Context;
 use Mockery\MockInterface;
 
@@ -26,14 +30,14 @@ class AmqpManagerTest extends TestCase
             'default' => 'null',
             'contexts' => [
                 'null' => [
-                    'connection_factory_class' => NullConnectionFactory::class,
+                    'connection_factory_class' => FakeAmqpConnectionFactory::class,
                 ],
             ],
         ]);
 
         $manager = $this->app->make(AmqpManager::class);
 
-        $this->assertInstanceOf(NullContext::class, $manager->context());
+        $this->assertInstanceOf(FakeAmqpContext::class, $manager->context());
     }
 
     /** @test */
@@ -42,14 +46,14 @@ class AmqpManagerTest extends TestCase
         $this->app['config']->set('queueInterop', [
             'contexts' => [
                 'other' => [
-                    'connection_factory_class' => NullConnectionFactory::class,
+                    'connection_factory_class' => FakeAmqpConnectionFactory::class,
                 ],
             ],
         ]);
 
         $manager = $this->app->make(AmqpManager::class);
 
-        $this->assertInstanceOf(NullContext::class, $manager->context('other'));
+        $this->assertInstanceOf(FakeAmqpContext::class, $manager->context('other'));
     }
 
     /** @test */
@@ -59,15 +63,15 @@ class AmqpManagerTest extends TestCase
             'default' => 'null',
             'contexts' => [
                 'null' => [
-                    'connection_factory_class' => NullConnectionFactory::class,
+                    'connection_factory_class' => FakeAmqpConnectionFactory::class,
                 ],
             ],
         ]);
 
-        $nullQueue = new NullQueue('nullQueue');
+        $nullQueue = new AmqpQueue('nullQueue');
 
         /** @var Context $contextMock */
-        $contextMock = $this->mock(Context::class, function (MockInterface $mock) use ($nullQueue) {
+        $contextMock = $this->mock(AmqpContext::class, function (MockInterface $mock) use ($nullQueue) {
             $mock->shouldReceive('createMessage')->with('testBody', ['testProp'], ['testHeader']);
             $mock->shouldReceive('createTopic')->with('testTopic');
             $mock->shouldReceive('createQueue')->with('testQueue');
