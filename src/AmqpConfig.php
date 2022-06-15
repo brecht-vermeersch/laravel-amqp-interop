@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brecht\LaravelAmqpInterop;
 
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Support\Arr;
 use Interop\Amqp\AmqpConnectionFactory;
 
 class AmqpConfig
@@ -21,31 +20,31 @@ class AmqpConfig
 
     public function getDefaultContextName(): string
     {
-        return $this->config->get(static::$name.'.default');
-    }
-
-    public function getContext(string $name): array
-    {
-        return $this->config->get(static::$name.'.contexts.'.$name);
+        return $this->config->get($this->prefixKey('default'));
     }
 
     /**
-     * @param string $name
      * @return class-string<AmqpConnectionFactory>
      */
-    public function getContextConnectionFactoryClass(string $name): string
+    public function getConnectionFactoryClass(): string
     {
-        return $this->getContext($name)['connection_factory_class'];
+        return $this->config->get($this->prefixKey('connection_factory_class'));
     }
 
     /**
      * @param string $name
      * @return array|string
      */
-    public function getContextConnectionFactoryConfig(string $name)
+    public function getContextOptions(string $name)
     {
-        $config = $this->getContext($name);
+        $key = $this->prefixKey("contexts.$name");
+        $options = $this->config->get($key);
 
-        return $config['dns'] ?? Arr::except($config, 'connection_factory_class');
+        return $options['dsn'] ?? $options;
+    }
+
+    private function prefixKey(string $key)
+    {
+        return static::$name.'.'.$key;
     }
 }

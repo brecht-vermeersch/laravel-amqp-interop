@@ -44,8 +44,8 @@ class AmqpManager implements FactoryContract
 
     protected function resolve(string $name): AmqpContext
     {
-        $factoryClass = $this->config->getContextConnectionFactoryClass($name);
-        $factoryConfig = $this->config->getContextConnectionFactoryConfig($name);
+        $factoryClass = $this->config->getConnectionFactoryClass();
+        $factoryConfig = $this->config->getContextOptions($name);
         $factory = new $factoryClass($factoryConfig);
 
         return $factory->createContext();

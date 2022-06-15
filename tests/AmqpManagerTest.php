@@ -26,11 +26,11 @@ class AmqpManagerTest extends TestCase
     /** @test */
     public function default_context_can_be_resolved()
     {
-        $this->app['config']->set('queueInterop', [
+        $this->app['config']->set('amqp', [
+            'connection_factory_class' => AmqpConnectionFactoryFake::class,
             'default' => 'null',
             'contexts' => [
                 'null' => [
-                    'connection_factory_class' => AmqpConnectionFactoryFake::class,
                 ],
             ],
         ]);
@@ -43,10 +43,10 @@ class AmqpManagerTest extends TestCase
     /** @test */
     public function other_context_can_be_resolved()
     {
-        $this->app['config']->set('queueInterop', [
+        $this->app['config']->set('amqp', [
+            'connection_factory_class' => AmqpConnectionFactoryFake::class,
             'contexts' => [
                 'other' => [
-                    'connection_factory_class' => AmqpConnectionFactoryFake::class,
                 ],
             ],
         ]);
@@ -59,7 +59,7 @@ class AmqpManagerTest extends TestCase
     /** @test */
     public function it_forwards_method_calls_to_default_context()
     {
-        $this->app['config']->set('queueInterop', [
+        $this->app['config']->set('amqp', [
             'default' => 'null',
             'contexts' => [
                 'null' => [

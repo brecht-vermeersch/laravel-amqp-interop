@@ -9,7 +9,7 @@ class AmqpConfigTest extends TestCase
     /** @test */
     public function test_get_default_context_name()
     {
-        $this->app['config']->set('queueInterop', [
+        $this->app['config']->set('amqp', [
             'default' => 'test',
         ]);
 
@@ -20,54 +20,24 @@ class AmqpConfigTest extends TestCase
     }
 
     /** @test */
-    public function test_get_context()
+    public function test_get_connection_factory_class()
     {
-        $this->app['config']->set('queueInterop', [
-            'contexts' => [
-                'test' => [
-                    'connection_factory_class' => 'factory',
-                ],
-            ],
+        $this->app['config']->set('amqp', [
+            'connection_factory_class' => 'factory',
         ]);
 
         /** @var AmqpConfig $config */
         $config = $this->app->make(AmqpConfig::class);
 
-        $this->assertEquals(
-            [
-                'connection_factory_class' => 'factory',
-            ],
-            $config->getContext('test')
-        );
+        $this->assertEquals('factory', $config->getConnectionFactoryClass());
     }
 
     /** @test */
-    public function test_get_context_connection_factory_class()
+    public function test_get_context_options_as_array()
     {
-        $this->app['config']->set('queueInterop', [
-            'default' => 'test',
+        $this->app['config']->set('amqp', [
             'contexts' => [
                 'test' => [
-                    'connection_factory_class' => 'factory',
-                ],
-            ],
-        ]);
-
-        /** @var AmqpConfig $config */
-        $config = $this->app->make(AmqpConfig::class);
-
-        $this->assertEquals('factory', $config->getContextConnectionFactoryClass('test')
-        );
-    }
-
-    /** @test */
-    public function test_get_context_connection_factory_config_as_array()
-    {
-        $this->app['config']->set('queueInterop', [
-            'default' => 'test',
-            'contexts' => [
-                'test' => [
-                    'connection_factory_class' => 'factory',
                     'host' => 'localhost',
                     'port' => 1000,
                 ],
@@ -82,18 +52,17 @@ class AmqpConfigTest extends TestCase
                 'host' => 'localhost',
                 'port' => 1000,
             ],
-            $config->getContextConnectionFactoryConfig('test')
+            $config->getContextOptions('test')
         );
     }
 
     /** @test */
-    public function test_get_context_connection_factory_config_as_dsn()
+    public function test_get_context_options_as_dsn()
     {
-        $this->app['config']->set('queueInterop', [
-            'default' => 'test',
+        $this->app['config']->set('amqp', [
             'contexts' => [
                 'test' => [
-                    'dns' => 'amqp:',
+                    'dsn' => 'amqp:',
                 ],
             ],
         ]);
@@ -101,6 +70,6 @@ class AmqpConfigTest extends TestCase
         /** @var AmqpConfig $config */
         $config = $this->app->make(AmqpConfig::class);
 
-        $this->assertEquals('amqp:', $config->getContextConnectionFactoryConfig('test'));
+        $this->assertEquals('amqp:', $config->getContextOptions('test'));
     }
 }
